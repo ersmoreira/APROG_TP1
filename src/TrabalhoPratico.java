@@ -5,9 +5,11 @@ public class TrabalhoPratico {
     public static void main(String[] args) {
         final int DIM_VERTICAL_INDEX = 0;
         final int DIM_HORIZONTAL_INDEX = 1;
+        final int ALTERACAO_NIVEL_AGUA = -1;
 
         Scanner sc = new Scanner(System.in);
 
+        System.out.println("a)");
 
         // Descritivo do terreno
         String descritivoTerreno = lerString(sc);
@@ -21,8 +23,28 @@ public class TrabalhoPratico {
         int[][] terreno = obterCotasTerreno(sc, dimensaoVertical, dimensaoHorizontal);
 
         // Imprime o mapa do terreno
+        System.out.println("b)");
         imprimeMapaTerreno(terreno, dimensaoVertical, dimensaoHorizontal);
 
+        // Obter novo mapa com alteracao do nivel da agua
+        int[][] mapaAlterado = calculaNovoMapaTerreno(terreno, dimensaoVertical, dimensaoHorizontal, ALTERACAO_NIVEL_AGUA);
+        System.out.println("c)");
+        imprimeMapaTerreno(mapaAlterado, dimensaoVertical, dimensaoHorizontal);
+
+    }
+
+    // Calcula novo mapa do terreno tendo em conta a alteração do nivel da agua
+    private static int[][] calculaNovoMapaTerreno(int[][] mapaTerreno, int dimensaoLinhas, int dimensaoColunas, int alteracao_nivel_agua) {
+        int[][] novoMapa = new int[dimensaoLinhas][dimensaoColunas];
+
+        for (int linha = 0; linha < dimensaoLinhas; linha++) {
+            for (int coluna = 0; coluna < dimensaoColunas; coluna++) {
+                novoMapa[linha][coluna] = mapaTerreno[linha][coluna] - alteracao_nivel_agua;
+            }
+
+        }
+
+        return novoMapa;
     }
 
     // Obtem as cotas de cada linha do terreno
@@ -70,12 +92,12 @@ public class TrabalhoPratico {
     }
 
     // Imprime o mapa do terreno com com os valores alinhados à direita
-    public static void imprimeMapaTerreno(int[][] mapaTerreno, int dimensaoLinhas, int dimensaoColunas){
+    public static void imprimeMapaTerreno(int[][] mapaTerreno, int dimensaoLinhas, int dimensaoColunas) {
         for (int linha = 0; linha < dimensaoLinhas; linha++) {
             for (int coluna = 0; coluna < dimensaoColunas; coluna++) {
                 System.out.printf("%5d", mapaTerreno[linha][coluna]);
             }
-        System.out.println();
+            System.out.println();
         }
     }
 

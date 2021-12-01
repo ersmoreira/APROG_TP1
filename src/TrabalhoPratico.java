@@ -26,10 +26,14 @@ public class TrabalhoPratico {
         System.out.println("b)");
         imprimeMapaTerreno(terreno, dimensaoVertical, dimensaoHorizontal);
 
-        // Obter novo mapa com alteracao do nivel da agua
+        // Obter e mostrar novo mapa com alteracao do nivel da agua
         int[][] mapaAlterado = calculaNovoMapaTerreno(terreno, dimensaoVertical, dimensaoHorizontal, ALTERACAO_NIVEL_AGUA);
         System.out.println("c)");
         imprimeMapaTerreno(mapaAlterado, dimensaoVertical, dimensaoHorizontal);
+
+        // Mostrar percentagem de area do terreno submersa
+        System.out.println("d)");
+        mostraPercentagemTerrenoSubmerso(calculaPercentagemTerrenoSubmerso(mapaAlterado, dimensaoVertical, dimensaoHorizontal));
 
     }
 
@@ -99,6 +103,24 @@ public class TrabalhoPratico {
             }
             System.out.println();
         }
+    }
+
+    // Calcula percentagem de terreno submersa
+    public static float calculaPercentagemTerrenoSubmerso(int[][] terreno, int dimensaoLinhas, int dimensaoColunas) {
+        int quantidade = 0;
+        for (int linha = 0; linha < dimensaoLinhas; linha++) {
+            for (int coluna = 0; coluna < dimensaoColunas; coluna++) {
+                if (terreno[linha][coluna] < 0) {
+                    quantidade++;
+                }
+            }
+        }
+        return ((float) quantidade / (dimensaoLinhas * dimensaoColunas)) * 100;
+    }
+
+    // Mostra área submersa
+    public static void mostraPercentagemTerrenoSubmerso(float valor) {
+        System.out.printf("area submersa: %7.2f%%", valor);
     }
 
 }

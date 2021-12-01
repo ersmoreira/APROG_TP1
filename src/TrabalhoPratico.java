@@ -20,6 +20,8 @@ public class TrabalhoPratico {
         // Obter cotas do terreno
         int[][] terreno = obterCotasTerreno(sc, dimensaoVertical, dimensaoHorizontal);
 
+        // Imprime o mapa do terreno
+        imprimeMapaTerreno(terreno, dimensaoVertical, dimensaoHorizontal);
 
     }
 
@@ -67,5 +69,14 @@ public class TrabalhoPratico {
         return arrayInt;
     }
 
+    // Imprime o mapa do terreno com com os valores alinhados à direita
+    public static void imprimeMapaTerreno(int[][] mapaTerreno, int dimensaoLinhas, int dimensaoColunas){
+        for (int linha = 0; linha < dimensaoLinhas; linha++) {
+            for (int coluna = 0; coluna < dimensaoColunas; coluna++) {
+                System.out.printf("%5d", mapaTerreno[linha][coluna]);
+            }
+        System.out.println();
+        }
+    }
 
 }

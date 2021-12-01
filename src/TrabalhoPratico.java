@@ -23,11 +23,12 @@ public class TrabalhoPratico {
 
     }
 
+    // Obtem as cotas de cada linha do terreno
     private static int[][] obterCotasTerreno(Scanner sc, int dimensaoLinhas, int dimensaoColunas) {
         int[][] cotasTerreno = new int[dimensaoLinhas][dimensaoColunas];
         String cotasLinha;
 
-        for (int linha = 0; linha < dimensaoLinhas ; linha++) {
+        for (int linha = 0; linha < dimensaoLinhas; linha++) {
             cotasLinha = lerString(sc);
             cotasTerreno[linha] = stringToArrayIntBySpace(cotasLinha);
         }
@@ -35,7 +36,8 @@ public class TrabalhoPratico {
         return cotasTerreno;
     }
 
-    public static String[] obterDimensoesTerreno(Scanner sc){
+    // Obtem as dimensoes do terreno
+    public static String[] obterDimensoesTerreno(Scanner sc) {
         String dimensoes = lerString(sc);
         String[] arrayDimensoes = stringToArrayBySpace(dimensoes);
         return arrayDimensoes;
@@ -48,20 +50,22 @@ public class TrabalhoPratico {
         return texto.trim();
     }
 
-
+    // Metodo que converte e retorna uma String num Array de Strings dividindo pelo espaço
     public static String[] stringToArrayBySpace(String texto) {
         String[] array = texto.split(" ");
         return array;
     }
 
-    public static int[] stringToArrayIntBySpace(String texto){
+    // Metodo que converte e retorna uma String num Array de inteiros dividindo pelo espaço
+    public static int[] stringToArrayIntBySpace(String texto) {
         String[] arrayString = stringToArrayBySpace(texto);
         int[] arrayInt = new int[arrayString.length];
 
-        for (int i = 0; i < arrayString.length ; i++) {
-                arrayInt[i] = Integer.parseInt(arrayString[i]);
+        for (int i = 0; i < arrayString.length; i++) {
+            arrayInt[i] = Integer.parseInt(arrayString[i]);
         }
         return arrayInt;
     }
+
 
 }

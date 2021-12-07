@@ -27,18 +27,21 @@ public class TrabalhoPratico {
         imprimeMapaTerreno(terreno, dimensaoVertical, dimensaoHorizontal);
 
         // Obter e mostrar novo mapa com alteracao do nivel da agua
-        int[][] mapaAlterado = calculaNovoMapaTerreno(terreno, dimensaoVertical, dimensaoHorizontal, ALTERACAO_NIVEL_AGUA);
+git        int[][] mapaAlterado = calculaNovoMapaTerreno(terreno, dimensaoVertical, dimensaoHorizontal,
+                ALTERACAO_NIVEL_AGUA);
         System.out.println("c)");
         imprimeMapaTerreno(mapaAlterado, dimensaoVertical, dimensaoHorizontal);
 
         // Mostrar percentagem de area do terreno submersa
         System.out.println("d)");
-        mostraPercentagemTerrenoSubmerso(calculaPercentagemTerrenoSubmerso(mapaAlterado, dimensaoVertical, dimensaoHorizontal));
+        mostraPercentagemTerrenoSubmerso(calculaPercentagemTerrenoSubmerso(mapaAlterado, dimensaoVertical,
+                dimensaoHorizontal));
 
     }
 
     // Calcula novo mapa do terreno tendo em conta a alteração do nivel da agua
-    private static int[][] calculaNovoMapaTerreno(int[][] mapaTerreno, int dimensaoLinhas, int dimensaoColunas, int alteracao_nivel_agua) {
+    private static int[][] calculaNovoMapaTerreno(int[][] mapaTerreno, int dimensaoLinhas, int dimensaoColunas,
+                                                  int alteracao_nivel_agua) {
         int[][] novoMapa = new int[dimensaoLinhas][dimensaoColunas];
 
         for (int linha = 0; linha < dimensaoLinhas; linha++) {

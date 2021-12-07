@@ -2,12 +2,12 @@ import java.util.Scanner;
 
 public class TrabalhoPratico {
 
-    public static void main(String[] args) {
-        final int DIM_VERTICAL_INDEX = 0;
-        final int DIM_HORIZONTAL_INDEX = 1;
-        final int ALTERACAO_NIVEL_AGUA = -1;
+    final static int DIM_VERTICAL_INDEX = 0;
+    final static int DIM_HORIZONTAL_INDEX = 1;
+    final static int ALTERACAO_NIVEL_AGUA = -1;
+    final static Scanner sc = new Scanner(System.in);
 
-        Scanner sc = new Scanner(System.in);
+    public static void main(String[] args) {
 
         System.out.println("a)");
 
@@ -15,20 +15,19 @@ public class TrabalhoPratico {
         String descritivoTerreno = lerString(sc);
 
         // Dimensoes horizontal e vertical
-        String[] arrayDimensoes = obterDimensoesTerreno(sc);
+        String[] arrayDimensoes = obterDimensoesTerreno();
         int dimensaoVertical = Integer.parseInt(arrayDimensoes[DIM_VERTICAL_INDEX]);
         int dimensaoHorizontal = Integer.parseInt(arrayDimensoes[DIM_HORIZONTAL_INDEX]);
 
         // Obter cotas do terreno
-        int[][] terreno = obterCotasTerreno(sc, dimensaoVertical, dimensaoHorizontal);
+        int[][] terreno = obterCotasTerreno(dimensaoVertical, dimensaoHorizontal);
 
         // Imprime o mapa do terreno
         System.out.println("b)");
         imprimeMapaTerreno(terreno, dimensaoVertical, dimensaoHorizontal);
 
         // Obter e mostrar novo mapa com alteracao do nivel da agua
-        int[][] mapaAlterado = calculaNovoMapaTerreno(terreno, dimensaoVertical, dimensaoHorizontal,
-                ALTERACAO_NIVEL_AGUA);
+        int[][] mapaAlterado = calculaNovoMapaTerreno(terreno, dimensaoVertical, dimensaoHorizontal);
         System.out.println("c)");
         imprimeMapaTerreno(mapaAlterado, dimensaoVertical, dimensaoHorizontal);
 
@@ -40,13 +39,12 @@ public class TrabalhoPratico {
     }
 
     // Calcula novo mapa do terreno tendo em conta a alteração do nivel da agua
-    private static int[][] calculaNovoMapaTerreno(int[][] mapaTerreno, int dimensaoLinhas, int dimensaoColunas,
-                                                  int alteracao_nivel_agua) {
+    private static int[][] calculaNovoMapaTerreno(int[][] mapaTerreno, int dimensaoLinhas, int dimensaoColunas) {
         int[][] novoMapa = new int[dimensaoLinhas][dimensaoColunas];
 
         for (int linha = 0; linha < dimensaoLinhas; linha++) {
             for (int coluna = 0; coluna < dimensaoColunas; coluna++) {
-                novoMapa[linha][coluna] = mapaTerreno[linha][coluna] - alteracao_nivel_agua;
+                novoMapa[linha][coluna] = mapaTerreno[linha][coluna] - ALTERACAO_NIVEL_AGUA;
             }
 
         }
@@ -55,7 +53,7 @@ public class TrabalhoPratico {
     }
 
     // Obtem as cotas de cada linha do terreno
-    private static int[][] obterCotasTerreno(Scanner sc, int dimensaoLinhas, int dimensaoColunas) {
+    private static int[][] obterCotasTerreno(int dimensaoLinhas, int dimensaoColunas) {
         int[][] cotasTerreno = new int[dimensaoLinhas][dimensaoColunas];
         String cotasLinha;
 
@@ -68,7 +66,7 @@ public class TrabalhoPratico {
     }
 
     // Obtem as dimensoes do terreno
-    public static String[] obterDimensoesTerreno(Scanner sc) {
+    public static String[] obterDimensoesTerreno() {
         String dimensoes = lerString(sc);
         String[] arrayDimensoes = stringToArrayBySpace(dimensoes);
         return arrayDimensoes;

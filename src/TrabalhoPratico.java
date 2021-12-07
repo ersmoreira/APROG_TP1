@@ -27,7 +27,7 @@ public class TrabalhoPratico {
         imprimeMapaTerreno(terreno, dimensaoVertical, dimensaoHorizontal);
 
         // Obter e mostrar novo mapa com alteracao do nivel da agua
-git        int[][] mapaAlterado = calculaNovoMapaTerreno(terreno, dimensaoVertical, dimensaoHorizontal,
+        int[][] mapaAlterado = calculaNovoMapaTerreno(terreno, dimensaoVertical, dimensaoHorizontal,
                 ALTERACAO_NIVEL_AGUA);
         System.out.println("c)");
         imprimeMapaTerreno(mapaAlterado, dimensaoVertical, dimensaoHorizontal);

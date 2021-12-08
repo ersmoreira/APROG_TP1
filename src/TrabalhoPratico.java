@@ -41,7 +41,12 @@ public class TrabalhoPratico {
         // Mostrar percentagem de area do terreno submersa
         mostraPercentagemTerrenoSubmerso(calculaPercentagemTerrenoSubmerso(mapaAlterado));
 
+        // Mostra a variação da área inundada
+        mostraVariacaoAreaInundada(terreno, mapaAlterado);
+
+
     }
+
 
     // Calcula novo mapa do terreno tendo em conta a alteração do nivel da agua
     private static int[][] calculaNovoMapaTerreno(int[][] mapaTerreno) {
@@ -119,11 +124,31 @@ public class TrabalhoPratico {
     // Mostra área submersa
     public static void mostraPercentagemTerrenoSubmerso(float valor) {
         mostraProximaAlinea();
-        System.out.printf("area submersa: %7.2f%%", valor);
+        System.out.printf("area submersa: %7.2f%%\n", valor);
     }
 
     public static void mostraProximaAlinea() {
         alinea++;
         System.out.printf("%c)\n", alinea);
+    }
+
+    private static void mostraVariacaoAreaInundada(int[][] mapa1, int[][] mapa2) {
+        int variacao;
+        mostraProximaAlinea();
+        variacao = calculaAreaSubmersa(mapa2) - calculaAreaSubmersa(mapa1);
+        System.out.printf("variacao da area inundada: %d m2\n", variacao);
+    }
+
+    public static int calculaAreaSubmersa(int[][] mapaTerreno) {
+        int soma = 0;
+
+        for (int linha = 0; linha < dimensaoHorizontal; linha++) {
+            for (int coluna = 0; coluna < dimensaoVertical; coluna++) {
+                if (mapaTerreno[linha][coluna] < 0) {
+                    soma += mapaTerreno[linha][coluna];
+                }
+            }
+        }
+        return soma;
     }
 }

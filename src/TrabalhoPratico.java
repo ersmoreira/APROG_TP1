@@ -140,15 +140,15 @@ public class TrabalhoPratico {
     }
 
     public static int calculaAreaSubmersa(int[][] mapaTerreno) {
-        int soma = 0;
+        int area = 0;
 
         for (int linha = 0; linha < dimensaoHorizontal; linha++) {
             for (int coluna = 0; coluna < dimensaoVertical; coluna++) {
                 if (mapaTerreno[linha][coluna] < 0) {
-                    soma += mapaTerreno[linha][coluna];
+                    area ++;
                 }
             }
         }
-        return soma;
+        return area;
     }
 }

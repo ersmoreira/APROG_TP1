@@ -1,3 +1,4 @@
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -53,6 +54,49 @@ public class TrabalhoPratico {
         // Mostrar incrementos de area inundada
         mostraIncrementoAreaInundadaAteInundacao(mapaAlterado);
 
+        // Mostrar as coordenadas do terreno e a quantidade de terra a mobilizar
+        mostraCoordenadasETerraAMobilizarDoTerrenoParaColocarCubo(mapaAlterado);
+
+        //Caminho seco na vertical
+        mostraCaminhoSecoNaVertical(mapaAlterado);
+
+    }
+
+    private static void mostraCoordenadasETerraAMobilizarDoTerrenoParaColocarCubo(int[][] terreno) {
+        int terraMobilizar = 0, minTerraImobilizar = Integer.MAX_VALUE, coordLinha, coordCol;
+
+        mostraProximaAlinea();
+
+        for (int linha = 0; linha < dimensaoHorizontal-2; linha++) {
+            for (int coluna = 0; coluna < dimensaoVertical-2; coluna++) {
+                terraMobilizar = 0;
+                for (int linhaCubo = linha; linhaCubo <= linha+2; linhaCubo++) {
+                    for (int colunaCubo = coluna; colunaCubo <= coluna+2; colunaCubo++) {
+                        terraMobilizar += Math.abs(terreno[linhaCubo][colunaCubo]+3);
+                        System.out.println("nova coluna");
+                    }
+                    System.out.println("nova linha");
+                }
+                System.out.println(terraMobilizar);
+                if(terraMobilizar<minTerraImobilizar){
+                    minTerraImobilizar = terraMobilizar;
+                    coordLinha = linha;
+                    coordCol = coluna;
+                }
+            }
+        }
+    }
+
+    private static void mostraCaminhoSecoNaVertical(int[][] terreno) {
+        int coluna = calculaCaminhoSecoNaVertical(terreno);
+
+        mostraProximaAlinea();
+
+        if (coluna != 0) {
+            System.out.printf("caminho seco na vertical na coluna (%d)\n", coluna);
+        } else {
+            System.out.println("não há caminho seco na vertical");
+        }
     }
 
     private static void mostraIncrementoAreaInundadaAteInundacao(int[][] terreno) {
@@ -69,7 +113,6 @@ public class TrabalhoPratico {
             areaSubmersa = calculaAreaSubmersa(aux);
         }
     }
-
 
     private static void mostraVolumeAguaTerreno(int[][] terreno) {
         mostraProximaAlinea();
@@ -210,5 +253,23 @@ public class TrabalhoPratico {
             }
         }
         return maximo;
+    }
+
+    public static int calculaCaminhoSecoNaVertical(int[][] terreno) {
+        int count = 0, caminhoSeco = 0;
+
+        for (int coluna = dimensaoVertical - 1; coluna >= 0; coluna--) {
+            for (int linha = 0; linha < dimensaoHorizontal; linha++) {
+                if (terreno[linha][coluna] >= 0) {
+                    count++;
+                }
+            }
+            if (count >= dimensaoHorizontal && coluna > caminhoSeco) {
+                caminhoSeco = coluna;
+            }
+            count = 0;
+        }
+
+        return caminhoSeco;
     }
 }

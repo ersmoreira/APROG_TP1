@@ -63,7 +63,7 @@ public class TrabalhoPratico {
     }
 
     private static void mostraCoordenadasETerraAMobilizarDoTerrenoParaColocarCubo(int[][] terreno) {
-        int terraMobilizar = 0, minTerraImobilizar = Integer.MAX_VALUE, coordLinha, coordCol;
+        int terraMobilizar = 0, minTerraImobilizar = Integer.MAX_VALUE, coordLinha = 0, coordCol = 0;
 
         mostraProximaAlinea();
 
@@ -73,11 +73,8 @@ public class TrabalhoPratico {
                 for (int linhaCubo = linha; linhaCubo <= linha+2; linhaCubo++) {
                     for (int colunaCubo = coluna; colunaCubo <= coluna+2; colunaCubo++) {
                         terraMobilizar += Math.abs(terreno[linhaCubo][colunaCubo]+3);
-                        System.out.println("nova coluna");
                     }
-                    System.out.println("nova linha");
                 }
-                System.out.println(terraMobilizar);
                 if(terraMobilizar<minTerraImobilizar){
                     minTerraImobilizar = terraMobilizar;
                     coordLinha = linha;
@@ -85,6 +82,8 @@ public class TrabalhoPratico {
                 }
             }
         }
+
+        System.out.printf("coordenadas do cubo: (%d,%d), terra a mobilizar: %d m2\n", coordLinha, coordCol, minTerraImobilizar);
     }
 
     private static void mostraCaminhoSecoNaVertical(int[][] terreno) {

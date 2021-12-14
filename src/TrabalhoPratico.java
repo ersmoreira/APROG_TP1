@@ -9,7 +9,7 @@ public class TrabalhoPratico {
     final static int ALTERACAO_NIVEL_AGUA = -1;
     final static int QUANTIDADE_DIMENSOES = 2;
 
-    final static String FILE_NAME = "./src/data.txt";
+    final static String FILE_NAME = "./dataFiles/data.txt";
     final static String FILE_DELIMITER = " ";
 
     static Scanner sc_file;

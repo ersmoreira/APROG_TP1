@@ -1,12 +1,11 @@
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class TrabalhoPratico {
 
-    final static int DIM_HORIZONTAL_INDEX = 0;
-    final static int DIM_VERTICAL_INDEX = 1;
+    final static int DIM_LINHAS_TERRENO_INDEX = 0;
+    final static int DIM_COLUNAS_TERRENO_INDEX = 1;
     final static int ALTERACAO_NIVEL_AGUA = -1;
     final static int QUANTIDADE_DIMENSOES = 2;
 
@@ -14,7 +13,6 @@ public class TrabalhoPratico {
     final static String FILE_DELIMITER = " ";
 
     static Scanner sc_file;
-    static int dimensaoVertical, dimensaoHorizontal;
     static char alinea = 'a';
 
     public static void main(String[] args) throws FileNotFoundException {
@@ -26,64 +24,65 @@ public class TrabalhoPratico {
 
         // Dimensoes horizontal e vertical
         int[] arrayDimensoes = obterDimensoesTerreno();
-        dimensaoHorizontal = arrayDimensoes[DIM_HORIZONTAL_INDEX];
-        dimensaoVertical = arrayDimensoes[DIM_VERTICAL_INDEX];
+        int dimensaoTerrenoLinhas = arrayDimensoes[DIM_LINHAS_TERRENO_INDEX];
+        int dimensaoTerrenoColunas = arrayDimensoes[DIM_COLUNAS_TERRENO_INDEX];
 
         // Obter cotas do terreno
-        int[][] terreno = obterCotasTerreno();
+        int[][] terrenoOriginal = obterCotasTerreno(dimensaoTerrenoLinhas, dimensaoTerrenoColunas);
 
         // Imprime o mapa do terreno
-        imprimeMapaTerreno(terreno);
+        imprimeMapaTerreno(terrenoOriginal);
 
         // Obter e mostrar novo mapa com alteracao do nivel da agua
-        int[][] mapaAlterado = calculaNovoMapaTerreno(terreno, ALTERACAO_NIVEL_AGUA);
-        imprimeMapaTerreno(mapaAlterado);
+        int[][] terrenoNovo = calculaNovoMapaTerreno(terrenoOriginal, ALTERACAO_NIVEL_AGUA);
+        imprimeMapaTerreno(terrenoNovo);
 
         // Mostrar percentagem de area do terreno submersa
-        mostraPercentagemTerrenoSubmerso(calculaPercentagemTerrenoSubmerso(mapaAlterado));
+        mostraPercentagemTerrenoSubmerso(calculaPercentagemTerrenoSubmerso(terrenoNovo));
 
         // Mostra a variação da área inundada
-        mostraVariacaoAreaInundada(terreno, mapaAlterado);
+        mostraVariacaoAreaInundada(terrenoOriginal, terrenoNovo);
 
         // Mostra volume de água existente no terreno
-        mostraVolumeAguaTerreno(mapaAlterado);
+        mostraVolumeAguaTerreno(terrenoNovo);
 
         // Inundação total
-        mostraAlturaParaInundacaoTotal(mapaAlterado);
+        mostraAlturaParaInundacaoTotal(terrenoNovo);
 
         // Mostrar incrementos de area inundada
-        mostraIncrementoAreaInundadaAteInundacao(mapaAlterado);
+        mostraIncrementoAreaInundadaAteInundacao(terrenoNovo);
 
         // Mostrar as coordenadas do terreno e a quantidade de terra a mobilizar
-        mostraCoordenadasETerraAMobilizarDoTerrenoParaColocarCubo(mapaAlterado);
+        mostraCoordenadasETerraAMobilizarDoTerrenoParaColocarCubo(terrenoNovo);
 
         //Caminho seco na vertical
-        mostraCaminhoSecoNaVertical(mapaAlterado);
+        mostraCaminhoSecoNaVertical(terrenoNovo);
 
     }
 
     private static void mostraCoordenadasETerraAMobilizarDoTerrenoParaColocarCubo(int[][] terreno) {
-        int terraMobilizar = 0, minTerraImobilizar = Integer.MAX_VALUE, coordLinha = 0, coordCol = 0;
+        int terraMobilizar, minTerraImobilizar = Integer.MAX_VALUE, coordLinha = 0, coordColuna = 0;
 
         mostraProximaAlinea();
 
-        for (int linha = 0; linha < dimensaoHorizontal-2; linha++) {
-            for (int coluna = 0; coluna < dimensaoVertical-2; coluna++) {
+        for (int linha = 0; linha < terreno.length - 2; linha++) {
+            for (int coluna = 0; coluna < terreno[linha].length - 2; coluna++) {
                 terraMobilizar = 0;
-                for (int linhaCubo = linha; linhaCubo <= linha+2; linhaCubo++) {
-                    for (int colunaCubo = coluna; colunaCubo <= coluna+2; colunaCubo++) {
-                        terraMobilizar += Math.abs(terreno[linhaCubo][colunaCubo]+3);
+                for (int linhaCubo = linha; linhaCubo <= linha + 2; linhaCubo++) {
+                    for (int colunaCubo = coluna; colunaCubo <= coluna + 2; colunaCubo++) {
+                        terraMobilizar += Math.abs(terreno[linhaCubo][colunaCubo] + 3);
                     }
                 }
-                if(terraMobilizar<minTerraImobilizar){
+                if (terraMobilizar < minTerraImobilizar) {
                     minTerraImobilizar = terraMobilizar;
                     coordLinha = linha;
-                    coordCol = coluna;
+                    coordColuna = coluna;
                 }
             }
         }
 
-        System.out.printf("coordenadas do cubo: (%d,%d), terra a mobilizar: %d m2\n", coordLinha, coordCol, minTerraImobilizar);
+        System.out.printf("coordenadas do cubo: (%d,%d), terra a mobilizar: %d m2\n", coordLinha, coordColuna,
+                minTerraImobilizar);
     }
 
     private static void mostraCaminhoSecoNaVertical(int[][] terreno) {
@@ -99,7 +98,7 @@ public class TrabalhoPratico {
     }
 
     private static void mostraIncrementoAreaInundadaAteInundacao(int[][] terreno) {
-        int[][] aux = new int[dimensaoHorizontal][dimensaoVertical];
+        int[][] aux;
         int areaSubmersa = calculaAreaSubmersa(terreno);
 
         mostraProximaAlinea();
@@ -122,8 +121,8 @@ public class TrabalhoPratico {
     private static int calculaVolumeAguaTerreno(int[][] terreno) {
         int volume = 0;
 
-        for (int linha = 0; linha < dimensaoHorizontal; linha++) {
-            for (int coluna = 0; coluna < dimensaoVertical; coluna++) {
+        for (int linha = 0; linha < terreno.length; linha++) {
+            for (int coluna = 0; coluna < terreno[linha].length; coluna++) {
                 if (terreno[linha][coluna] < 0) {
                     volume += Math.abs(terreno[linha][coluna]);
                 }
@@ -137,14 +136,13 @@ public class TrabalhoPratico {
         System.out.printf("para inundacao total, subir :%d m\n", calculaAlturaMaximaAcimaAgua(terreno) + 1);
     }
 
-
     // Calcula novo mapa do terreno tendo em conta a alteração do nivel da agua
-    private static int[][] calculaNovoMapaTerreno(int[][] mapaTerreno, int alteraAltura) {
-        int[][] novoMapa = new int[dimensaoHorizontal][dimensaoVertical];
+    private static int[][] calculaNovoMapaTerreno(int[][] terreno, int alteraAltura) {
+        int[][] novoMapa = new int[terreno.length][terreno[0].length];
 
-        for (int linha = 0; linha < dimensaoHorizontal; linha++) {
-            for (int coluna = 0; coluna < dimensaoVertical; coluna++) {
-                novoMapa[linha][coluna] = mapaTerreno[linha][coluna] - alteraAltura;
+        for (int linha = 0; linha < terreno.length; linha++) {
+            for (int coluna = 0; coluna < terreno[linha].length; coluna++) {
+                novoMapa[linha][coluna] = terreno[linha][coluna] - alteraAltura;
             }
 
         }
@@ -153,8 +151,8 @@ public class TrabalhoPratico {
     }
 
     // Obtem as cotas de cada linha do terreno
-    private static int[][] obterCotasTerreno() {
-        int[][] cotasTerreno = new int[dimensaoHorizontal][dimensaoVertical];
+    private static int[][] obterCotasTerreno(int dimensaoTerrenoLinhas, int dimensaoTerrenoColunas) {
+        int[][] terreno = new int[dimensaoTerrenoLinhas][dimensaoTerrenoColunas];
         int numeroLinha = 0;
         String[] arrayAux;
         String cotasLinha;
@@ -164,13 +162,13 @@ public class TrabalhoPratico {
             arrayAux = cotasLinha.split(FILE_DELIMITER);
 
             for (int i = 0; i < arrayAux.length; i++) {
-                cotasTerreno[numeroLinha][i] = Integer.parseInt(arrayAux[i]);
+                terreno[numeroLinha][i] = Integer.parseInt(arrayAux[i]);
             }
 
             numeroLinha++;
         }
 
-        return cotasTerreno;
+        return terreno;
     }
 
     // Obtem as dimensoes do terreno
@@ -185,14 +183,13 @@ public class TrabalhoPratico {
         return arrInt;
     }
 
-
     // Imprime o mapa do terreno com com os valores alinhados à direita
-    public static void imprimeMapaTerreno(int[][] mapaTerreno) {
+    public static void imprimeMapaTerreno(int[][] terreno) {
         mostraProximaAlinea();
 
-        for (int linha = 0; linha < dimensaoHorizontal; linha++) {
-            for (int coluna = 0; coluna < dimensaoVertical; coluna++) {
-                System.out.printf("%5d", mapaTerreno[linha][coluna]);
+        for (int linha = 0; linha < terreno.length; linha++) {
+            for (int coluna = 0; coluna < terreno[linha].length; coluna++) {
+                System.out.printf("%5d", terreno[linha][coluna]);
             }
             System.out.println();
         }
@@ -201,14 +198,14 @@ public class TrabalhoPratico {
     // Calcula percentagem de terreno submersa
     public static float calculaPercentagemTerrenoSubmerso(int[][] terreno) {
         int quantidade = 0;
-        for (int linha = 0; linha < dimensaoHorizontal; linha++) {
-            for (int coluna = 0; coluna < dimensaoVertical; coluna++) {
+        for (int linha = 0; linha < terreno.length; linha++) {
+            for (int coluna = 0; coluna < terreno[linha].length; coluna++) {
                 if (terreno[linha][coluna] < 0) {
                     quantidade++;
                 }
             }
         }
-        return ((float) quantidade / (dimensaoHorizontal * dimensaoVertical)) * 100;
+        return ((float) quantidade / (terreno.length * terreno[0].length)) * 100;
     }
 
     // Mostra área submersa
@@ -222,19 +219,19 @@ public class TrabalhoPratico {
         System.out.printf("%c)\n", alinea);
     }
 
-    private static void mostraVariacaoAreaInundada(int[][] mapa1, int[][] mapa2) {
+    private static void mostraVariacaoAreaInundada(int[][] terrenoAntigo, int[][] terrenoNovo) {
         int variacao;
         mostraProximaAlinea();
-        variacao = calculaAreaSubmersa(mapa2) - calculaAreaSubmersa(mapa1);
+        variacao = calculaAreaSubmersa(terrenoNovo) - calculaAreaSubmersa(terrenoAntigo);
         System.out.printf("variacao da area inundada: %d m2\n", variacao);
     }
 
-    public static int calculaAreaSubmersa(int[][] mapaTerreno) {
+    public static int calculaAreaSubmersa(int[][] terreno) {
         int area = 0;
 
-        for (int linha = 0; linha < dimensaoHorizontal; linha++) {
-            for (int coluna = 0; coluna < dimensaoVertical; coluna++) {
-                if (mapaTerreno[linha][coluna] < 0) {
+        for (int linha = 0; linha < terreno.length; linha++) {
+            for (int coluna = 0; coluna < terreno[linha].length; coluna++) {
+                if (terreno[linha][coluna] < 0) {
                     area++;
                 }
             }
@@ -242,12 +239,12 @@ public class TrabalhoPratico {
         return area;
     }
 
-    public static int calculaAlturaMaximaAcimaAgua(int[][] mapa) {
+    public static int calculaAlturaMaximaAcimaAgua(int[][] terreno) {
         int maximo = 0;
-        for (int linha = 0; linha < dimensaoHorizontal; linha++) {
-            for (int coluna = 0; coluna < dimensaoVertical; coluna++) {
-                if (mapa[linha][coluna] > maximo) {
-                    maximo = mapa[linha][coluna];
+        for (int linha = 0; linha < terreno.length; linha++) {
+            for (int coluna = 0; coluna < terreno[linha].length; coluna++) {
+                if (terreno[linha][coluna] > maximo) {
+                    maximo = terreno[linha][coluna];
                 }
             }
         }
@@ -257,13 +254,13 @@ public class TrabalhoPratico {
     public static int calculaCaminhoSecoNaVertical(int[][] terreno) {
         int count = 0, caminhoSeco = 0;
 
-        for (int coluna = dimensaoVertical - 1; coluna >= 0; coluna--) {
-            for (int linha = 0; linha < dimensaoHorizontal; linha++) {
+        for (int coluna = terreno[0].length - 1; coluna >= 0; coluna--) {
+            for (int linha = 0; linha < terreno.length; linha++) {
                 if (terreno[linha][coluna] >= 0) {
                     count++;
                 }
             }
-            if (count >= dimensaoHorizontal && coluna > caminhoSeco) {
+            if (count >= terreno.length && coluna > caminhoSeco) {
                 caminhoSeco = coluna;
             }
             count = 0;

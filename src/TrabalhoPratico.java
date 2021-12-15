@@ -27,40 +27,42 @@ public class TrabalhoPratico {
         int dimensaoTerrenoLinhas = arrayDimensoes[DIM_LINHAS_TERRENO_INDEX];
         int dimensaoTerrenoColunas = arrayDimensoes[DIM_COLUNAS_TERRENO_INDEX];
 
-        // Obter cotas do terreno
+        // Obter cotas do terreno -> Diogo
         int[][] terrenoOriginal = obterCotasTerreno(dimensaoTerrenoLinhas, dimensaoTerrenoColunas);
 
-        // Imprime o mapa do terreno
+        // Imprime o mapa do terreno -> Edgar
         imprimeMapaTerreno(terrenoOriginal);
 
-        // Obter e mostrar novo mapa com alteracao do nivel da agua
+        // Obter e mostrar novo mapa com alteracao do nivel da agua -> Diogo
         int[][] terrenoNovo = calculaNovoMapaTerreno(terrenoOriginal, ALTERACAO_NIVEL_AGUA);
         imprimeMapaTerreno(terrenoNovo);
 
-        // Mostrar percentagem de area do terreno submersa
+        // Mostrar percentagem de area do terreno submersa -> Edgar
         mostraPercentagemTerrenoSubmerso(calculaPercentagemTerrenoSubmerso(terrenoNovo));
 
-        // Mostra a variação da área inundada
+        // Mostra a variação da área inundada -> Diogo
         mostraVariacaoAreaInundada(terrenoOriginal, terrenoNovo);
 
-        // Mostra volume de água existente no terreno
+        // Mostra volume de água existente no terreno -> Edgar
         mostraVolumeAguaTerreno(terrenoNovo);
 
-        // Inundação total
+        // Inundação total -> Diogo
         mostraAlturaParaInundacaoTotal(terrenoNovo);
 
-        // Mostrar incrementos de area inundada
+        // Mostrar incrementos de area inundada -> Edgar
         mostraIncrementoAreaInundadaAteInundacao(terrenoNovo);
 
-        // Mostrar as coordenadas do terreno e a quantidade de terra a mobilizar
-        mostraCoordenadasETerraAMobilizarDoTerrenoParaColocarCubo(terrenoNovo);
+        // Mostrar as coordenadas do terreno e a quantidade de terra a mobilizar -> Diogo
+        CalculaEMostraCoordenadasETerraAMobilizarDoTerrenoParaColocarCubo(terrenoNovo);
 
-        //Caminho seco na vertical
+        //Caminho seco na vertical -> Edgar
         mostraCaminhoSecoNaVertical(terrenoNovo);
+
 
     }
 
-    public static void mostraCoordenadasETerraAMobilizarDoTerrenoParaColocarCubo(int[][] terreno) {
+    //Calcula e mostra as coordenadas e o minimo de terra a mobilizar para se inserir um cubo 3x3 na dada matriz
+    public static void CalculaEMostraCoordenadasETerraAMobilizarDoTerrenoParaColocarCubo(int[][] terreno) {
         int terraMobilizar, minTerraImobilizar = Integer.MAX_VALUE, coordLinha = 0, coordColuna = 0;
 
         mostraProximaAlinea();
@@ -85,6 +87,7 @@ public class TrabalhoPratico {
                 minTerraImobilizar);
     }
 
+    //mostra o caminho seco mais a ESTE da matriz
     public static void mostraCaminhoSecoNaVertical(int[][] terreno) {
         int coluna = calculaCaminhoSecoNaVertical(terreno);
 

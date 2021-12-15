@@ -81,7 +81,7 @@ public class TrabalhoPratico {
             }
         }
 
-        System.out.printf("coordenadas do cubo: (%d,%d), terra a mobilizar: %d m2\n", coordLinha, coordColuna,
+        System.out.printf("coordenadas do cubo: (%d,%d), terra a mobilizar: %d m2%n", coordLinha, coordColuna,
                 minTerraImobilizar);
     }
 
@@ -91,7 +91,7 @@ public class TrabalhoPratico {
         mostraProximaAlinea();
 
         if (coluna != 0) {
-            System.out.printf("caminho seco na vertical na coluna (%d)\n", coluna);
+            System.out.printf("caminho seco na vertical na coluna (%d)%n", coluna);
         } else {
             System.out.println("não há caminho seco na vertical");
         }
@@ -102,12 +102,12 @@ public class TrabalhoPratico {
         int areaSubmersa = calculaAreaSubmersa(terreno);
 
         mostraProximaAlinea();
-        System.out.printf("subida da agua (m) | area inundada (m2)\n");
-        System.out.printf("------------------ | ------------------\n");
+        System.out.printf("subida da agua (m) | area inundada (m2)%n");
+        System.out.printf("------------------ | ------------------%n");
 
         for (int i = 1; i <= calculaAlturaMaximaAcimaAgua(terreno) + 1; i++) {
             aux = calculaNovoMapaTerreno(terreno, i);
-            System.out.printf("%18d | %18d\n", i, calculaAreaSubmersa(aux) - areaSubmersa);
+            System.out.printf("%18d | %18d%n", i, calculaAreaSubmersa(aux) - areaSubmersa);
             areaSubmersa = calculaAreaSubmersa(aux);
         }
     }
@@ -115,7 +115,7 @@ public class TrabalhoPratico {
     private static void mostraVolumeAguaTerreno(int[][] terreno) {
         mostraProximaAlinea();
 
-        System.out.printf("volume de agua: %d m3\n", calculaVolumeAguaTerreno(terreno));
+        System.out.printf("volume de agua: %d m3%n", calculaVolumeAguaTerreno(terreno));
     }
 
     private static int calculaVolumeAguaTerreno(int[][] terreno) {
@@ -133,7 +133,7 @@ public class TrabalhoPratico {
 
     private static void mostraAlturaParaInundacaoTotal(int[][] terreno) {
         mostraProximaAlinea();
-        System.out.printf("para inundacao total, subir :%d m\n", calculaAlturaMaximaAcimaAgua(terreno) + 1);
+        System.out.printf("para inundacao total, subir :%d m%n", calculaAlturaMaximaAcimaAgua(terreno) + 1);
     }
 
     // Calcula novo mapa do terreno tendo em conta a alteração do nivel da agua
@@ -211,19 +211,19 @@ public class TrabalhoPratico {
     // Mostra área submersa
     public static void mostraPercentagemTerrenoSubmerso(float valor) {
         mostraProximaAlinea();
-        System.out.printf("area submersa: %7.2f%%\n", valor);
+        System.out.printf("area submersa: %7.2f%%%n", valor);
     }
 
     public static void mostraProximaAlinea() {
         alinea++;
-        System.out.printf("%c)\n", alinea);
+        System.out.printf("%c)%n", alinea);
     }
 
     private static void mostraVariacaoAreaInundada(int[][] terrenoAntigo, int[][] terrenoNovo) {
         int variacao;
         mostraProximaAlinea();
         variacao = calculaAreaSubmersa(terrenoNovo) - calculaAreaSubmersa(terrenoAntigo);
-        System.out.printf("variacao da area inundada: %d m2\n", variacao);
+        System.out.printf("variacao da area inundada: %d m2%n", variacao);
     }
 
     public static int calculaAreaSubmersa(int[][] terreno) {

@@ -60,7 +60,7 @@ public class TrabalhoPratico {
 
     }
 
-    private static void mostraCoordenadasETerraAMobilizarDoTerrenoParaColocarCubo(int[][] terreno) {
+    public static void mostraCoordenadasETerraAMobilizarDoTerrenoParaColocarCubo(int[][] terreno) {
         int terraMobilizar, minTerraImobilizar = Integer.MAX_VALUE, coordLinha = 0, coordColuna = 0;
 
         mostraProximaAlinea();
@@ -85,7 +85,7 @@ public class TrabalhoPratico {
                 minTerraImobilizar);
     }
 
-    private static void mostraCaminhoSecoNaVertical(int[][] terreno) {
+    public static void mostraCaminhoSecoNaVertical(int[][] terreno) {
         int coluna = calculaCaminhoSecoNaVertical(terreno);
 
         mostraProximaAlinea();
@@ -97,7 +97,7 @@ public class TrabalhoPratico {
         }
     }
 
-    private static void mostraIncrementoAreaInundadaAteInundacao(int[][] terreno) {
+    public static void mostraIncrementoAreaInundadaAteInundacao(int[][] terreno) {
         int[][] aux;
         int areaSubmersa = calculaAreaSubmersa(terreno);
 
@@ -112,13 +112,13 @@ public class TrabalhoPratico {
         }
     }
 
-    private static void mostraVolumeAguaTerreno(int[][] terreno) {
+    public static void mostraVolumeAguaTerreno(int[][] terreno) {
         mostraProximaAlinea();
 
         System.out.printf("volume de agua: %d m3%n", calculaVolumeAguaTerreno(terreno));
     }
 
-    private static int calculaVolumeAguaTerreno(int[][] terreno) {
+    public static int calculaVolumeAguaTerreno(int[][] terreno) {
         int volume = 0;
 
         for (int linha = 0; linha < terreno.length; linha++) {
@@ -131,13 +131,13 @@ public class TrabalhoPratico {
         return volume;
     }
 
-    private static void mostraAlturaParaInundacaoTotal(int[][] terreno) {
+    public static void mostraAlturaParaInundacaoTotal(int[][] terreno) {
         mostraProximaAlinea();
         System.out.printf("para inundacao total, subir :%d m%n", calculaAlturaMaximaAcimaAgua(terreno) + 1);
     }
 
     // Calcula novo mapa do terreno tendo em conta a alteração do nivel da agua
-    private static int[][] calculaNovoMapaTerreno(int[][] terreno, int alteraAltura) {
+    public static int[][] calculaNovoMapaTerreno(int[][] terreno, int alteraAltura) {
         int[][] novoMapa = new int[terreno.length][terreno[0].length];
 
         for (int linha = 0; linha < terreno.length; linha++) {
@@ -151,7 +151,7 @@ public class TrabalhoPratico {
     }
 
     // Obtem as cotas de cada linha do terreno
-    private static int[][] obterCotasTerreno(int dimensaoTerrenoLinhas, int dimensaoTerrenoColunas) {
+    public static int[][] obterCotasTerreno(int dimensaoTerrenoLinhas, int dimensaoTerrenoColunas) {
         int[][] terreno = new int[dimensaoTerrenoLinhas][dimensaoTerrenoColunas];
         int numeroLinha = 0;
         String[] arrayAux;
@@ -219,7 +219,7 @@ public class TrabalhoPratico {
         System.out.printf("%c)%n", alinea);
     }
 
-    private static void mostraVariacaoAreaInundada(int[][] terrenoAntigo, int[][] terrenoNovo) {
+    public static void mostraVariacaoAreaInundada(int[][] terrenoAntigo, int[][] terrenoNovo) {
         int variacao;
         mostraProximaAlinea();
         variacao = calculaAreaSubmersa(terrenoNovo) - calculaAreaSubmersa(terrenoAntigo);
